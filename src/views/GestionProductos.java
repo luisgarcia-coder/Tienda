@@ -4,6 +4,10 @@
  */
 package views;
 
+import controllers.ProductoController;
+import javax.swing.table.DefaultTableModel;
+import models.Producto;
+
 /**
  *
  * @author kobak
@@ -15,6 +19,7 @@ public class GestionProductos extends javax.swing.JDialog {
     /**
      * Creates new form CrearProductos
      */
+    private ProductoController control = new ProductoController();
     public GestionProductos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -185,15 +190,22 @@ public class GestionProductos extends javax.swing.JDialog {
         DefaultTableModel modelo = (DefaultTableModel)tablaProductos.getModel();
         modelo.setRowCount(0); //Limpiar tabla
         
-        for(Producto p:controlador)
+        for(Producto p:control.listarProductos()){
+            Object[] fila={
+                p.getNombre(),
+                p.getPrecio(),
+                p.getPeso(),
+                p.getF_caducidad()
+            };
+            modelo.addRow(fila);
+        }
     }
     
     private void bntAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAgregarProductoActionPerformed
         PantallaPrincipal ventana = new PantallaPrincipal();
         CrearProducto crearP = new CrearProducto(ventana,true);
         crearP.setVisible(true);
-        //System.out.println("Cantidad: " + controladorp);
-        
+        System.out.println("Cantidad: " + control.listarProductos().size());
         cargarTabla();
     }//GEN-LAST:event_bntAgregarProductoActionPerformed
 
